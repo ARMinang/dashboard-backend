@@ -1,0 +1,8 @@
+# Specify filepatterns you want git to ignore.
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+mysite.sublime*
