@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from pemasaran.views import IuranBulanan, TkBulanan
+from pemasaran.views import IuranBulanan, TkBulanan, NppBulanan
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/iuran/', IuranBulanan.as_view(), name='api-iuran'),
     path('api/tk/', TkBulanan.as_view(), name='api-tk'),
+    path('api/npp/', NppBulanan.as_view(), name='api-npp')
 ]

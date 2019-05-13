@@ -27,3 +27,21 @@ class Tk(models.Model):
 
     class Meta:
         unique_together = ("kpj", "npp", "tgl_kepesertaan")
+
+
+class Npp(models.Model):
+    npp = models.CharField(max_length=8, blank=False, null=False)
+    kode_divisi = models.CharField(max_length=3, blank=False, null=False)
+    kode_perusahaan = models.CharField(max_length=20, blank=False, null=False)
+    nama_perusahaan = models.CharField(max_length=200)
+    keps_awal = models.DateField(auto_now=False, auto_now_add=False)
+    kode_paket = models.CharField(max_length=2, default="2P")
+    kode_ilo = models.CharField(max_length=4, default="0")
+    alamat = models.CharField(max_length=200, blank=True, null=True)
+    nama_kontak = models.CharField(max_length=200, blank=True, null=True)
+    handphone_kontak = models.CharField(max_length=15, blank=True, null=True)
+    email_kontak = models.EmailField(blank=True, null=True)
+    kode_pembina = models.CharField(max_length=8, blank=False, null=False)
+
+    class Meta:
+        unique_together = ("npp", "kode_divisi")

@@ -4,6 +4,7 @@ from celery.utils.log import get_task_logger
 import datetime
 from pemasaran.fetch_lb import fetch_iuran
 from pemasaran.fetch_tk import fetch_all_tk_baru
+from pemasaran.fetch_npp import fetch_all_npp
 
 
 logger = get_task_logger(__name__)
@@ -29,11 +30,17 @@ def fetch_tk_task():
     logger.info("Fetch TK")
 
 
+def fetch_npp_task():
+    fetch_all_npp()
+    logger.info("Fetch All NPP")
+
+
 @periodic_task(
     run_every=(crontab(minute=0, hour='*/1')),
     name="Fetch Hourly Data",
     ignore_result=True
 )
 def fetch_all():
-    fetch_lb_task()
-    fetch_tk_task()
+    fetch_npp_task()
+    # fetch_lb_task()
+    # fetch_tk_task()
