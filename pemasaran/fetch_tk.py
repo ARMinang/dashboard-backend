@@ -73,7 +73,6 @@ def fetch_tk_rekap(data):
 
 async def fetch_tk_per_npp(data, session):
     url = URL_TK_NPP.format(**data)
-    logger.inf("Fetch Rekap Url: %s" % url)
     count = 0
     while True:
         try:
@@ -147,7 +146,6 @@ async def run(data):
 
 def fetch_all_tk_baru(to_fetch):
     rekap_npp = fetch_tk_rekap(to_fetch)
-    logger.info("rekap npp length: %s" % len(rekap_npp))
     no_dupli = [dict(t) for t in {tuple(d.items()) for d in rekap_npp}]
     loop = asyncio.get_event_loop()
     future = asyncio.ensure_future(run(no_dupli))
