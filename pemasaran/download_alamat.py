@@ -37,7 +37,11 @@ def fetch_alamat():
                     for list_npp in child.findall("G_1"):
                         singleNpp = dict(
                             (
+<<<<<<< HEAD
                                 e.lower(),
+=======
+                                e,
+>>>>>>> origin/master
                                 list_npp.find(e).text
                                 if list_npp.find(e) is not None else ""
                             )
@@ -47,7 +51,11 @@ def fetch_alamat():
                             (
                                 k,
                                 float(v)
+<<<<<<< HEAD
                                 if k == "rate_jkk" and v is not None else v
+=======
+                                if k == "RATE_JKK" and v is not None else v
+>>>>>>> origin/master
                             ) for k, v in singleNpp.items()
                         )
                         data_alamat.append(intSingle)
