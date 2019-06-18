@@ -42,10 +42,5 @@ def fetch_npp_task():
 )
 def fetch_all():
     fetch_npp_task()
-<<<<<<< HEAD
     fetch_lb_task()
     fetch_tk_task()
-=======
-    # fetch_lb_task()
-    # fetch_tk_task()
->>>>>>> origin/master
