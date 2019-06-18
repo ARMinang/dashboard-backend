@@ -35,6 +35,7 @@ class Npp(models.Model):
     kode_perusahaan = models.CharField(max_length=20, blank=False, null=False)
     nama_perusahaan = models.CharField(max_length=200)
     keps_awal = models.DateField(auto_now=False, auto_now_add=False)
+    blth_na = models.DateField(auto_now=False, auto_now_add=False, null=True)
     kode_paket = models.CharField(max_length=2, default="2P")
     kode_ilo = models.CharField(max_length=4, default="0")
     alamat = models.CharField(max_length=200, blank=True, null=True)
