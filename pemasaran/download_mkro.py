@@ -41,7 +41,7 @@ CUR_HEADER = [
 ]
 
 BLTH_HEADER = [
-    "KEPS_AWAL", "KEPS_JP", "BLTH_DUTK", "BLTH_REKON"
+    "keps_awal", "keps_jp", "blth_dutk", "blth_rekon", "blth_na"
 ]
 
 
@@ -50,7 +50,10 @@ def trunc_datetime(blth):
 
 
 def convert_to_date(timestamp):
-    return trunc_datetime(datetime.strptime(timestamp, "%m-%Y"))
+    try:
+        return trunc_datetime(datetime.strptime(timestamp, "%m-%Y"))
+    except ValueError:
+        return None
 
 
 def fetch_mkro(data):
@@ -70,13 +73,13 @@ def fetch_mkro(data):
                     for list_npp in child.findall("G_NPP"):
                         singleNpp = dict(
                             (
-                                e,
+                                e.lower(),
                                 list_npp.find(e).text
                                 if list_npp.find(e) is not None else ""
                             )
                             for e in HEADER_MKRO
                         )
-                        singleNpp["KODE_PEMBINA"] = data["user"]
+                        singleNpp["kode_pembina"] = data["user"]
                         intSingle = dict(
                             (
                                 k,
@@ -88,21 +91,24 @@ def fetch_mkro(data):
                             (
                                 k,
                                 convert_to_date(v)
-                                if k in BLTH_HEADER and v is not None else v
+                                if k in BLTH_HEADER and v is not None
+                                else v
                             ) for k, v in intSingle.items()
                         )
                         to_eps = create_eps_list(all_converted) if\
-                            all_converted["BLTH_NA"] == "-" or\
-                            all_converted["BLTH_NA"] is None else None
+                            all_converted["blth_na"] == "-" or\
+                            all_converted["blth_na"] is None else None
+                        if to_eps and to_eps["blth_na"] == "-":
+                            to_eps["blth_na"] = None
                         data_eps.append(to_eps) if to_eps else None
                         data_mkar.append(all_converted)
         return data_mkar, data_eps
 
 
 def create_eps_list(single):
-    if single["BLTH_REKON"]:
-        if single["BLTH_REKON"] < trunc_datetime(datetime.now()) and\
-            single["BLTH_REKON"] >= trunc_datetime(
+    if single["blth_rekon"]:
+        if single["blth_rekon"] < trunc_datetime(datetime.now()) and\
+            single["blth_rekon"] >= trunc_datetime(
             datetime.now() - relativedelta(months=+2)
         ):
             return single

@@ -6,6 +6,7 @@ import aiohttp
 from pemasaran.models import Tk
 from pemasaran.fetch_lb import convert_to_datetime
 from celery.utils.log import get_task_logger
+import pandas as pd
 
 logger = get_task_logger(__name__)
 
@@ -112,8 +113,13 @@ async def fetch_tk_per_npp(data, session):
                             if len(ex_item) == 0:
                                 instances.append(single_tk)
                 if instances:
+                    pd1 = pd.DataFrame(instances)
+                    pd1.drop_duplicates(
+                        subset=["kpj", "npp", "tgl_kepesertaan"], inplace=True
+                    )
+                    result_dict = pd1.to_dict('records')
                     Tk.objects.bulk_create(
-                        [Tk(**data) for data in instances]
+                        [Tk(**data) for data in result_dict]
                     )
             break
         except asyncio.TimeoutError as te:
