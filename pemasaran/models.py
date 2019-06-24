@@ -46,3 +46,7 @@ class Npp(models.Model):
 
     class Meta:
         unique_together = ("npp", "kode_divisi")
+
+
+class Itw(models.Model):
+    npp = models.ForeignKey('Npp', on_delete=models.CASCADE)
